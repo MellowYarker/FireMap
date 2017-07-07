@@ -15,7 +15,7 @@ for i in range(len(text)):
         update_indexes.append(i)
 
 # print(update_indexes)
-# tweet_list = [currate.check_type_of_tweet(i) for i in text]
+tweet_list = [currate.check_type_of_tweet(i) for i in text]
 # print(tweet_list[16], tweet_list[18])
 # if updated is True:
 #     # first find the original event, delete it, then delete all but the final \
@@ -35,6 +35,7 @@ for i in range(len(text)):
 # TODO: show most recent update of tweets, if UD tweet exists, remove previous V
 
 # Try geocoding here, if it fails, reformat, if it still fails, remove the event
+failed_index = []
 
 for location in range(len(tweet_list)):
     # print(str(location) + ': ', tweet_list[location][1])
@@ -50,8 +51,17 @@ for location in range(len(tweet_list)):
                 # print(g.latlng)
                 tweet_list[location][1] = g.latlng
             else:
-                tweet_list.remove(tweet_list[location])
+                # Geocoding isn't gonna work on this value, need to make note of
+                # the index and remove outside the loop
+                failed_index.append(location)
 
+# Remove locations that couldn't be geocoded, add the locations to a list.
+if len(failed_index) > 0:
+    failed_locations = []
+    for index in range(len(failed_index)):
+        failed_locations.append(tweet_list[failed_index[index]])
+        del tweet_list[failed_index[index]]
+    # print(failed_locations)
 
 final = []
 for i in tweet_list:
