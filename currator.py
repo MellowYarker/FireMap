@@ -121,7 +121,7 @@ def ud_tweet(tweet):
     type.
 
     >>> ud_tweet('UD: Vehicle (Personal Injury Highway) -  North York (3 Trucks)')
-    ['Vehicle (Personal Injury Highway)', 'North York', 3, 'Vehicle']
+    ['Vehicle (Personal Injury Highway)', 'North York, Toronto', 3, 'Vehicle', None]
     >>> ud_tweet('UD: [1 Alm] Fire (Residential) - Rustic Road b/w Blue Springs Road / Cleo Road, North York (14 Trucks)')
     ['Fire (Residential)', 'Rustic Road and Blue Springs Road', 14, 'Fire', 1]
     """
