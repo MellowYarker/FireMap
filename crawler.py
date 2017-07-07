@@ -1,10 +1,10 @@
 import json
 import oauth2 as oauth
-consumer_key = 'PcbOwOjAbWhptLNby9ZAOwYyX'
-consumer_secret = 'VNUAhklgxH5RDZ3qan4mjRoXgcTKhJiDGb4ls6vQ6RB7cYdN2m'
+consumer_key = 'YOURKEY'
+consumer_secret = 'YOURSECRET'
 
-access_token = '881921522981642240-qgG0HddwwkI2YImAzA7XdKobmLtjD5l'
-access_token_secret = 'YJ5OEOYicHgB8f99VNGd1bKSYPekqv882xj8Nf3dG5Asx'
+access_token = 'YOURTOKEN'
+access_token_secret = 'YOURTOKENSECRET'
 
 consumer = oauth.Consumer(key=consumer_key, secret=consumer_secret)
 access_token = oauth.Token(key=access_token, secret=access_token_secret)
