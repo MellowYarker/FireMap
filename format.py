@@ -1,38 +1,24 @@
 import currator as currate
 import geocoder
 from event import Event
+import os
 
 fname = 'extracted.txt'
 with open(fname, 'r') as f:
     text = f.readlines()
 
-# This checks if there are any updated tweets
-updated = False
-update_indexes = []
-for i in range(len(text)):
-    if 'UD:' in text[i]:
-        updated = True
-        update_indexes.append(i)
 
-# print(update_indexes)
-tweet_list = [currate.check_type_of_tweet(i) for i in text]
-# print(tweet_list[16], tweet_list[18])
-# if updated is True:
-#     # first find the original event, delete it, then delete all but the final \
-#     # event, then make it so that those events are on a "block list"
-#     # Finding the location of the most recent update
-#     location = tweet_list[update_indexes[-1]][1]
-#     event = tweet_list[update_indexes[-1]][3]
-#     i = 0
-#     while i < min(update_indexes):
-#         if location in tweet_list[i] and event in tweet_list[i]:
-#             del tweet_list[i]
-#             i = min(update_indexes)
-#         i += 1
-#     for i in range(len(update_indexes) - 1):
-#         del tweet_list[update_indexes[i]]
+tweet_list = currate.check_type_of_tweet(text)
 
-# TODO: show most recent update of tweets, if UD tweet exists, remove previous V
+# Check if updates.txt exists (if it does that means some tweets were updated
+# so there won't be as many events on the map as there were tweets pulled from
+# Twitter
+
+# if os.path.exists(os.getcwd()[:-9]+'updates.txt'):
+#     with open('updates.txt', 'r') as f:
+#         number = f.readline()
+#     updates = int(number[:-2])
+#     print(updates)
 
 # Try geocoding here, if it fails, reformat, if it still fails, remove the event
 failed_index = []
@@ -55,7 +41,9 @@ for location in range(len(tweet_list)):
                 # the index and remove outside the loop
                 failed_index.append(location)
 
-# Remove locations that couldn't be geocoded, add the locations to a list.
+# Remove locations that couldn't be geocoded
+# Put all locations that could not be geocoded into a list to figure out why the
+# geocoding failed and find a work around
 if len(failed_index) > 0:
     failed_locations = []
     for index in range(len(failed_index)):
@@ -67,12 +55,12 @@ final = []
 for i in tweet_list:
     final.append(Event(i))
 
-# Add description to a marker
+# TODO Add description to a marker
 markers = []
 for i in range(len(final)):
     markers.append("{number}: {bracket}center: {bracket}lat: {lat}, lng: {lng}{revbracket}, event: {quote}{event}{endquote}, trucks: {trucks}, alarm: {quote}{alarm}{endquote}{revbracket}".format(number=i, bracket='{', lat=final[i].location[0], lng=final[i].location[1], revbracket='}', quote="'", event=final[i].event, endquote="'", trucks=final[i].trucks, alarm=final[i].alarm))
 
-print(markers)
+# print(markers)
 
 str = ''
 for i in range(len(markers)):
@@ -81,6 +69,7 @@ for i in range(len(markers)):
     else:
         str += markers[i]
 
+# Create the map
 with open('map.html', 'w') as f:
     f.write("""<!DOCTYPE html>
 <html>
@@ -166,7 +155,7 @@ with open('map.html', 'w') as f:
       {revbrack}
     </script>
     <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap">
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCrehsqQVFG2y8JDxrGwnsTlRoxK47dIyw&callback=initMap">
     </script>
 </body>
 </html>""".format(brack='{', values=str, revbrack='}'))
