@@ -42,23 +42,46 @@ def cut(tweet):
         tweet[1] = tweet[1][:end-1]
 
 
-def check_type_of_tweet(tweet):
-    """(str) -> list of str
+def check_type_of_tweet(tweets):
+    """(list) -> list of list of str
 
     Determine the type of tweet, then call the appropriate function
+
+    >>> tweets = ['Alarm Highrise Residential - Eglinton Avenue b/w Centre St / Markham Road, Scarborough (6 Trucks)', 'UD: Vehicle (Personal Injury Highway) -  North York (3 Trucks)', 'UD: Vehicle (Personal Injury Highway) -  North York (3 Trucks)']
+    >>> print(check_type_of_tweet(tweets))
     """
 
-    # Determine if tweet begins with UD
-    if '-' in tweet:
-        if tweet[0] != '[':
+    updated_count = 0
+    tweets = tweets[::-1]
+    for tweet in tweets:
+
+        # This flag represents if a tweet has already been updated
+        updated = False
+
+        # Determine if tweet begins with UD
+        if '-' in tweet and tweet[0] != '[':
+            # Check updated tweet
             if tweet[0:4] == 'UD: ':
-                # to_csv(ud_tweet(tweet))
-                event_list.append(ud_tweet(tweet))
+                formatted = ud_tweet(tweet)
+                # If the event list is empty just add it
+                if len(event_list) == 0:
+                    event_list.append(formatted)
+                else:
+                    # Check if the tweet location and event type exist
+                    for event in event_list:
+                        if formatted[1] in event and formatted[3] in event:
+                            updated = True
+                            updated_count += 1
+
+                    if updated is False:
+                        event_list.append(formatted)
+
             elif '-' and ',' in tweet:
-                # to_csv(regular(tweet))
                 event_list.append(regular(tweet))
-            # return regular(tweet)
-    return event_list[-1]
+    if updated_count > 0:
+        with open("updates.txt", 'w') as f:
+            f.write(str(updated_count))
+    return event_list[::-1]
 
 
 def regular(tweet):
