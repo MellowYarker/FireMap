@@ -35,10 +35,12 @@ if os.path.exists(os.getcwd()+'/geocodes'):
     # dictionary_exists = True
     with open('geocodes', 'rb') as values:
         codes = pickle.load(values)
+        print(len(codes))
     # print(codes)
 else:
     # if dictionary_exists is False:
     codes = {}
+# TODO create a dictionary of failed location. If it isn't in the locations dict and isn't in the failed dict then and only then should a new geocode be created!!
 
 for location in range(len(tweet_list)):
     # print(str(location) + ': ', tweet_list[location][1])
@@ -109,6 +111,8 @@ if len(failed_index) > 0:
         for i in range(len(failed_index)):
             failed_index[i] -= 1
         # print(failed_locations)
+
+print(len(tweet_list))
 final = []
 for i in tweet_list:
     final.append(Event(i))
