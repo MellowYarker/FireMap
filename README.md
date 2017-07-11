@@ -1,4 +1,4 @@
-<b>Autogenerate a map that displays emergencies that the Toronto Fire Department has responded to.<\b> <br />
+<b>Autogenerate a map that displays emergencies that the Toronto Fire Department has responded to.</b> <br />
 
 To run it, add your twitter API tokens to crawler.py, and add your Google Maps API key to the long string in format.py (near the bottom).<br />
 Once you have done this, simply open a terminal, go to the directory you have this repo saved to, and type python3 firemap.py.<br />
