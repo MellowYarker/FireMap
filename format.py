@@ -2,49 +2,94 @@ import currator as currate
 import geocoder
 from event import Event
 import os
+import pickle
 
 fname = 'extracted.txt'
 with open(fname, 'r') as f:
     text = f.readlines()
 
+# print(text)
 
 tweet_list = currate.check_type_of_tweet(text)
 
 # Check if updates.txt exists (if it does that means some tweets were updated
 # so there won't be as many events on the map as there were tweets pulled from
 # Twitter
+if os.path.exists(os.getcwd()+'/updates.txt'):
+    with open('updates.txt', 'r') as f:
+        updates = f.readline()
+    # print(updates)
 
-# if os.path.exists(os.getcwd()[:-9]+'updates.txt'):
-#     with open('updates.txt', 'r') as f:
-#         number = f.readline()
-#     updates = int(number[:-2])
-#     print(updates)
+# for i in tweet_list:
+#     print(i[1], i[3], i[4])
 
 # Try geocoding here, if it fails, reformat, if it still fails, remove the event
 failed_index = []
 
+# Check if the geocodes file exists, if it does load the dictionary of codes
+dictionary_exists = False
+if os.path.exists(os.getcwd()+'/geocodes'):
+    dictionary_exists = True
+    with open('geocodes', 'rb') as values:
+        codes = pickle.load(values)
+
+if dictionary_exists is False:
+    codes = {}
 for location in range(len(tweet_list)):
     # print(str(location) + ': ', tweet_list[location][1])
+    # Make sure the location hasn't already been geocoded
     if not isinstance(tweet_list[location][1], list):
-        g = geocoder.google(tweet_list[location][1])
-        if g.latlng != []:
-            # print(g.latlng)
-            tweet_list[location][1] = g.latlng
+        # If the geocode dictionary exists, check if it's in there
+        if dictionary_exists is True:
+            if tweet_list[location][1] in codes:
+                tweet_list[location][1] = codes[tweet_list[location][1]]
+            # If it isn't in the geocode dictionary, add it and the geocode
+            else:
+                g = geocoder.google(tweet_list[location][1])
+                if g.latlng != []:
+                    # print(g.latlng)
+                    codes[tweet_list[location][1]] = g.latlng
+                    tweet_list[location][1] = g.latlng
+                else:
+                    retry = currate.reformat(tweet_list[location][1])
+                    g = geocoder.google(retry)
+                    if g.latlng != []:
+                        # print(g.latlng)
+                        codes[tweet_list[location][1]] = g.latlng
+                        tweet_list[location][1] = g.latlng
+                    else:
+                        # Geocoding isn't gonna work on this value, need to make note of
+                        # the index and remove outside the loop
+                        failed_index.append(location)
+
+        # If the geocode dictionary doesn't exist
         else:
-            retry = currate.reformat(tweet_list[location][1])
-            g = geocoder.google(retry)
+            g = geocoder.google(tweet_list[location][1])
             if g.latlng != []:
                 # print(g.latlng)
+                codes[tweet_list[location][1]] = g.latlng
                 tweet_list[location][1] = g.latlng
             else:
-                # Geocoding isn't gonna work on this value, need to make note of
-                # the index and remove outside the loop
-                failed_index.append(location)
+                retry = currate.reformat(tweet_list[location][1])
+                g = geocoder.google(retry)
+                if g.latlng != []:
+                    # print(g.latlng)
+                    codes[tweet_list[location][1]] = g.latlng
+                    tweet_list[location][1] = g.latlng
+                else:
+                    # Geocoding isn't gonna work on this value, need to make note of
+                    # the index and remove outside the loop
+                    failed_index.append(location)
+
+# Codes has been updated, serialize it again so it can be accessed later
+with open('geocode', 'wb') as values:
+    pickle.dump(codes, values)
 
 # Remove locations that couldn't be geocoded
 # Put all locations that could not be geocoded into a list to figure out why the
 # geocoding failed and find a work around
 if len(failed_index) > 0:
+    # print('Some failed to geocode')
     failed_locations = []
     for index in range(len(failed_index)):
         failed_locations.append(tweet_list[failed_index[index]])
@@ -60,7 +105,7 @@ markers = []
 for i in range(len(final)):
     markers.append("{number}: {bracket}center: {bracket}lat: {lat}, lng: {lng}{revbracket}, event: {quote}{event}{endquote}, trucks: {trucks}, alarm: {quote}{alarm}{endquote}{revbracket}".format(number=i, bracket='{', lat=final[i].location[0], lng=final[i].location[1], revbracket='}', quote="'", event=final[i].event, endquote="'", trucks=final[i].trucks, alarm=final[i].alarm))
 
-# print(markers)
+print(markers)
 
 str = ''
 for i in range(len(markers)):
@@ -159,5 +204,6 @@ with open('map.html', 'w') as f:
     </script>
 </body>
 </html>""".format(brack='{', values=str, revbrack='}'))
+
 
 
