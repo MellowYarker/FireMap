@@ -30,21 +30,22 @@ if os.path.exists(os.getcwd()+'/updates.txt'):
 failed_index = []
 
 # Check if the geocodes file exists, if it does load the dictionary of codes
-dictionary_exists = False
+# dictionary_exists = False
 if os.path.exists(os.getcwd()+'/geocodes'):
-    dictionary_exists = True
+    # dictionary_exists = True
     with open('geocodes', 'rb') as values:
         codes = pickle.load(values)
     # print(codes)
-
-if dictionary_exists is False:
+else:
+    # if dictionary_exists is False:
     codes = {}
+
 for location in range(len(tweet_list)):
     # print(str(location) + ': ', tweet_list[location][1])
     # Make sure the location hasn't already been geocoded
     if not isinstance(tweet_list[location][1], list):
         # If the geocode dictionary exists, check if it's in there
-        if dictionary_exists is True:
+        if codes:
             if tweet_list[location][1] in codes:
                 tweet_list[location][1] = codes[tweet_list[location][1]]
             # If it isn't in the geocode dictionary, add it and the geocode
@@ -62,9 +63,11 @@ for location in range(len(tweet_list)):
                         codes[tweet_list[location][1]] = g.latlng
                         tweet_list[location][1] = g.latlng
                     else:
+                        # print('Failed' + str(retry))
                         # Geocoding failed, make note of this location's index &
                         # remove it from the list once outside of the loop
                         failed_index.append(location)
+                        # print(failed_index)
 
         # If the geocode dictionary is empty
         else:
@@ -100,21 +103,16 @@ if len(failed_index) > 0:
     # Every time an event is deleted from the list, the length of the list
     # gets smaller, so this accounts for that and decreases the index by 1
     failed_locations = []
-    length = 0
-    while length != len(failed_index):
-        failed_locations.append(tweet_list[failed_index[length]][1])
-        del tweet_list[failed_index[length]]
-        del failed_index[length]
-        for i in failed_index:
-            i -= 1
-        length += 1
+    for index in range(len(failed_index)):
+        failed_locations.append(tweet_list[failed_index[index]][1])
+        del tweet_list[failed_index[index]]
+        for i in range(len(failed_index)):
+            failed_index[i] -= 1
         # print(failed_locations)
 final = []
 for i in tweet_list:
     final.append(Event(i))
 
-for i in final:
-    print(i.location)
 
 # TODO Add description to a marker
 markers = []
@@ -175,8 +173,9 @@ with open('map.html', 'w') as f:
                 var value = '#2e2eb8'
             {revbrack} else if (eventMap[event].event == 'Alarm'){brack}
                 var value = '#ffff80'
-            {revbrack}
-            else{brack}
+            {revbrack} else if (eventMap[event].event == 'Vehicle') {brack}
+                var value = '#008B8B'
+            {revbrack} else{brack}
                 var value = '#79d279'{revbrack}
           if (eventMap[event].alarm == 'None'){brack}
                 var alarm = 0
