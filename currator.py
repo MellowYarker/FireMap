@@ -241,6 +241,9 @@ def reformat(tweet):
     if 'Gt' in tweet:
         tweet = tweet.replace('Gt', 'Gate')
 
+    if 'Crcl' in tweet:
+        tweet = tweet.replace('Crcl', 'Cir')
+
     # Remove reoccuring street names
     tweet = tweet.split()
     temporary = []
