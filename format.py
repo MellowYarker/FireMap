@@ -7,7 +7,7 @@ import time
 
 now = time.time()
 
-fname = 'ALLTWEETS.txt'
+fname = 'extracted.txt'
 with open(fname, 'r') as f:
     text = f.readlines()
 
