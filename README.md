@@ -11,3 +11,7 @@ lighter blue = vehicle <br />
 pink = other<br />
 shades of red or just black = fire (the darker the colour the more severe, black being the most dangerous level.)<br />
 
+This needs a lot of work, the basic functionality is there but there's a lot of redundant code; it's very 'hacked together'.<br />
+The format.py file basically runs through like a script, which I don't really like. It's pretty challenging to follow the code, so I'll progressively turn everything into functions and maybe implement another class so that it's simple to follow. <br /><br \>
+The documentation is also pretty sparce, it'll be descriptive enough soon.<br \><br \>
+The map itself doesn't really do much without a legend, or any interactive features, I've been dealing with the backend a lot so I can put a good chunk of time on the UI later.
