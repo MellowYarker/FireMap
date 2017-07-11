@@ -62,7 +62,7 @@ def check_type_of_tweet(tweets):
         updated = False
 
         # Check if it is a valid event
-        if '-' in tweet and tweet[0] != '[':
+        if '-' in tweet and tweet[0] != '[' and '-*-' not in tweet:
             # Check updated tweet
             if tweet[0:4] == 'UD: ':
                 formatted = ud_tweet(tweet)
@@ -260,3 +260,4 @@ if __name__ == '__main__':
     [print(i[1]) for i in check_type_of_tweet(ultimate)]
     # print(check_type_of_tweet(ultimate))
     print(check_type_of_tweet(['Medical (Assist) - Frank Rivers Dr b/w Ww West Warden South Steeles / Manilow St, Scarborough (2 Trucks)']))
+    print(check_type_of_tweet(['UD: Vehicle (Personal Injury Highway) -  -*- (5 Trucks)']))
