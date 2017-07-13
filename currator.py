@@ -1,14 +1,7 @@
 """This file contains functions that can be used to pull out the relevant data.
 """
-import csv
 
 event_list = []
-
-# def to_csv(lst):
-#     """Turns it into a csv file"""
-#     with open('info.csv', 'a') as f:
-#         wr = csv.writer(f, quoting=csv.QUOTE_ALL)
-#         wr.writerow(lst)
 
 
 def to_int(tweet):
@@ -23,11 +16,11 @@ def to_int(tweet):
     for i in tweet[2]:
         if i.isdigit():
             trucks += i
-        # elif i == ')':
-        #     pass
     tweet[2] = int(trucks)
 
 
+# TODO fix cut because it's getting rid of 'Toronto' which is needed for geocoding accurately
+# TODO figure out a solution for b/w which means between
 def cut(tweet):
     """(list) -> list
 
@@ -39,7 +32,7 @@ def cut(tweet):
     """
     if '/' in tweet[1]:
         end = tweet[1].find('/')
-        tweet[1] = tweet[1][:end-1]
+        tweet[1] = tweet[1][:end-1] + ', Toronto'
 
 
 def check_type_of_tweet(tweets):
@@ -106,7 +99,7 @@ def regular(tweet):
     the third is the number of trucks, and the fourth is the event type.
 
     >>> regular('Alarm Highrise Residential - Eglinton Avenue b/w Centre St / Markham Road, Scarborough (6 Trucks)')
-    ['Alarm Highrise Residential', 'Eglinton Avenue and Centre St', 6, 'Alarm']
+    ['Alarm Highrise Residential', 'Eglinton Avenue and Centre St, Toronto', 6, 'Alarm', None]
     """
     # print(tweet)
     lst = []
@@ -258,9 +251,9 @@ def reformat(tweet):
 
     return final_string
 
-if __name__ == '__main__':
-    ultimate = ['Medical (Chest Pains) - Woolner Avenue b/w Rockcliffe Boulevard / Jane St, York (2 Trucks)\n', 'Alarm Residential - Coxwell Avenue b/w Dundas St East / Robbins Avenue, Toronto (6 Trucks)\n', 'UD: Vehicle (Personal Injury) - Weston Road @ St Phillips Road, York (2 Trucks)\n', 'Public Hazard - Weston Road @ St Phillips Road, York (2 Trucks)\n', 'UD: Medical (Unconscious) - Drovers Lane @ Verner Lane, Toronto (3 Trucks)\n', 'Medical (Unconscious) - Drovers Lane @ Verner Lane, Toronto (2 Trucks)\n', 'Medical (Vsa) - Phillip Avenue b/w Mcintosh St / Craiglee Dr, Scarborough (2 Trucks)\n', 'Fire (Grass/rubbish) - (Tedford Dr @ Clearfield Gt), Scarborough (2 Trucks)\n', 'Medical (Unconscious) - Chapman Avenue b/w Avis Crescent / Munford Crescent, East York (2 Trucks)\n', 'Medical (Vsa) - Calderstone Crescent b/w Dear Gt / Kirkdene Dr, Scarborough (2 Trucks)\n', 'Medical (Trouble Breathing) - Lawrence Avenue b/w Townley Avenue / Pharmacy Avenue, Scarborough (2 Trucks)\n', 'Medical (Unconscious) - Dundas St b/w Roncesvalles Avenue / Bloor St West, Toronto (2 Trucks)\n', 'Medical (Unconscious) - Victoria Park Avenue b/w Esquire Road / Sheppard Avenue East, Scarborough (2 Trucks)\n', 'Medical (Other) - Morningside Avenue b/w Military Trail / Tams Road, Scarborough (2 Trucks)\n', 'Check Call - Yonge St b/w Asquith Avenue / Yorkville Avenue, Toronto (3 Trucks)\n', 'Medical (Allergy) - Thorncliffe Park Dr b/w West Don River Trail / West Don River Trail, East York (2 Trucks)\n', 'Medical (Trouble Breathing) - Wiley Avenue b/w Milverton Boulevard / Sammon Avenue, East York (2 Trucks)\n', 'Tems Transferred (Read Remarks) - Rathburn Road b/w Melbert Road / Elmcrest Creek Trail, Etobicoke (2 Trucks)\n', 'UD: Vehicle (Personal Injury Highway) -  North York (5 Trucks)\n', 'Fire (Grass/rubbish) - Queen St b/w Jameson Avenue / Macdonell Avenue, Toronto (2 Trucks)\n']
-    [print(i[1]) for i in check_type_of_tweet(ultimate)]
-    # print(check_type_of_tweet(ultimate))
-    print(check_type_of_tweet(['Medical (Assist) - Frank Rivers Dr b/w Ww West Warden South Steeles / Manilow St, Scarborough (2 Trucks)']))
-    print(check_type_of_tweet(['UD: Vehicle (Personal Injury Highway) -  -*- (5 Trucks)']))
+# if __name__ == '__main__':
+#     ultimate = ['Medical (Chest Pains) - Woolner Avenue b/w Rockcliffe Boulevard / Jane St, York (2 Trucks)\n', 'Alarm Residential - Coxwell Avenue b/w Dundas St East / Robbins Avenue, Toronto (6 Trucks)\n', 'UD: Vehicle (Personal Injury) - Weston Road @ St Phillips Road, York (2 Trucks)\n', 'Public Hazard - Weston Road @ St Phillips Road, York (2 Trucks)\n', 'UD: Medical (Unconscious) - Drovers Lane @ Verner Lane, Toronto (3 Trucks)\n', 'Medical (Unconscious) - Drovers Lane @ Verner Lane, Toronto (2 Trucks)\n', 'Medical (Vsa) - Phillip Avenue b/w Mcintosh St / Craiglee Dr, Scarborough (2 Trucks)\n', 'Fire (Grass/rubbish) - (Tedford Dr @ Clearfield Gt), Scarborough (2 Trucks)\n', 'Medical (Unconscious) - Chapman Avenue b/w Avis Crescent / Munford Crescent, East York (2 Trucks)\n', 'Medical (Vsa) - Calderstone Crescent b/w Dear Gt / Kirkdene Dr, Scarborough (2 Trucks)\n', 'Medical (Trouble Breathing) - Lawrence Avenue b/w Townley Avenue / Pharmacy Avenue, Scarborough (2 Trucks)\n', 'Medical (Unconscious) - Dundas St b/w Roncesvalles Avenue / Bloor St West, Toronto (2 Trucks)\n', 'Medical (Unconscious) - Victoria Park Avenue b/w Esquire Road / Sheppard Avenue East, Scarborough (2 Trucks)\n', 'Medical (Other) - Morningside Avenue b/w Military Trail / Tams Road, Scarborough (2 Trucks)\n', 'Check Call - Yonge St b/w Asquith Avenue / Yorkville Avenue, Toronto (3 Trucks)\n', 'Medical (Allergy) - Thorncliffe Park Dr b/w West Don River Trail / West Don River Trail, East York (2 Trucks)\n', 'Medical (Trouble Breathing) - Wiley Avenue b/w Milverton Boulevard / Sammon Avenue, East York (2 Trucks)\n', 'Tems Transferred (Read Remarks) - Rathburn Road b/w Melbert Road / Elmcrest Creek Trail, Etobicoke (2 Trucks)\n', 'UD: Vehicle (Personal Injury Highway) -  North York (5 Trucks)\n', 'Fire (Grass/rubbish) - Queen St b/w Jameson Avenue / Macdonell Avenue, Toronto (2 Trucks)\n']
+#     [print(i[1]) for i in check_type_of_tweet(ultimate)]
+#     # print(check_type_of_tweet(ultimate))
+#     print(check_type_of_tweet(['Medical (Assist) - Frank Rivers Dr b/w Ww West Warden South Steeles / Manilow St, Scarborough (2 Trucks)']))
+#     print(check_type_of_tweet(['UD: Vehicle (Personal Injury Highway) -  -*- (5 Trucks)']))
