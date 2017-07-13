@@ -1,18 +1,18 @@
-# FireMap #<br />
+# FireMap <br />
 <b>Autogenerate a map that displays emergencies that the Toronto Fire Department has responded to.</b> <br />
 
-### How to run it ###<br />
+### How to run it <br />
 1. Add your API keys
- 			1. Twitter API tokens in crawler.py
-			2. Google Maps API key in format.py (within the long string near the bottom of the file)
-		2. Open a terminal and navigate to the directory you have this repo saved to.
-		3. Type python3 firemap.py.
-			* <b>This <i>could</i> take quite a bit of time the first time you run it</b>(took me 20-30 min for 3200 tweets.)
-			* This is due to the fact that many of the locations have not been geocoded yet.
-				* Geocoding takes the bulk of the time
-			* If you run it again it shouldn't take more than a few seconds as the locations that did not have geocodes before have been added to a dictionary and serialized in the geocodes file.
-		4. Once map.html is created, open it in a browser.
-## Notes ##<br />
+	1. Twitter API tokens in crawler.py
+	2. Google Maps API key in format.py (within the long string near the bottom of the file)
+2. Open a terminal and navigate to the directory you have this repo saved to.
+3. Type python3 firemap.py.
+	* **This *could* take quite a bit of time the first time you run it** (took me 20-30 min for 3200 tweets and 0-1 second after on the same data set.)
+	* This is due to the fact that many of the locations have not been geocoded yet.
+		* Geocoding takes the bulk of the time
+	* If you run it again it shouldn't take more than a few seconds as the locations that did not have geocodes before have been added to a dictionary and serialized in the geocodes file.
+4. Once map.html is created, open it in a browser.
+## Notes <br />
 
 I'm not a fan of how slow the process of geocoding is compared to accessing an existing geocode, so if I find a decent open source dataset of all the intersections in Toronto and their geocodes, I'll just use that.<br />
 A legend still needes to be added:<br />
