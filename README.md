@@ -15,7 +15,8 @@
 ### Notes <br />
 
 * I'm not a fan of how slow the process of geocoding is compared to accessing an existing geocode.<br />
-	* If I find a decent open source dataset of all the intersections in Toronto and their geocodes, I'll try to implement that.<br />
+	* If I find a decent open source dataset of all the intersections in Toronto and their geocodes, I'll try to implement that.
+	* Until then I will continue to add locations (provided by the twitter page I get the data from) to increase the possibility of location matches in the future.<br />
 * A legend still needs to be added:<br />
 	* Lighter Bluish/Green = Vehicle <br />
 	* Darker Blue = Medical<br />
