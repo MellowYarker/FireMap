@@ -1,5 +1,5 @@
 # FireMap <br />
-###Autogenerate a map that displays emergencies that the Toronto Fire Department has responded to.
+### Autogenerate a map that displays emergencies that the Toronto Fire Department has responded to.
 
 ### How to run it <br />
 1. Add your API keys
@@ -14,14 +14,14 @@
 4. Once map.html is created, open it in a browser.
 ### Notes <br />
 
-I'm not a fan of how slow the process of geocoding is compared to accessing an existing geocode.
+I'm not a fan of how slow the process of geocoding is compared to accessing an existing geocode.<br />
 	* If I find a decent open source dataset of all the intersections in Toronto and their geocodes, I'll try to implement that.<br />
 A legend still needs to be added:<br />
-	Lighter Bluish/Green = Vehicle <br />
-	Darker Blue = Medical<br />
-	Green = Alarm<br />
-	Shades of Red or just Black = Fire (the darker the colour the more severe, black being the most dangerous level.)<br />
-	Pink = Other<br /><br />
+	* Lighter Bluish/Green = Vehicle <br />
+	* Darker Blue = Medical<br />
+	* Green = Alarm<br />
+	* Shades of Red or just Black = Fire (the darker the colour the more severe, black being the most dangerous level.)<br />
+	* Pink = Other<br /><br />
 
 This needs a lot of work, the basic functionality is there but there's a lot of redundant code; it's very 'hacked together'.<br />
 I'm sure some of the code is actually irrelevant as the functions were originally developed to splice a string of html that was parsed using *BeautifulSoup* (before using the Twitter API I just built a simple webcrawler to grab the HTML from the webpage).<br />
