@@ -167,9 +167,9 @@ with open('failed', 'wb') as failures:
 # Put all locations that could not be geocoded into a list to figure out why the
 # geocoding failed and find a work around
 if len(failed_index) > 0:
-    print('Some failed to geocode')
-    for i in failed_index:
-        print(tweet_list[i])
+    # print('Some failed to geocode')
+    # for i in failed_index:
+        # print(tweet_list[i])
 
     # Every time an event is deleted from the list, the length of the list
     # gets smaller, so this accounts for that and decreases the index by 1
@@ -185,13 +185,13 @@ if len(failed_index) > 0:
 final = []
 for i in tweet_list:
     final.append(Event(i))
-    print(Event(i).location)
+    # print(Event(i).location)
 
 
 # TODO Add description to a marker
 markers = []
 for i in range(len(final)):
-    markers.append("{number}: {bracket}center: {bracket}lat: {lat}, lng: {lng}{revbracket}, event: {quote}{event}{endquote}, trucks: {trucks}, alarm: {quote}{alarm}{endquote}{revbracket}".format(number=i, bracket='{', lat=final[i].location[0], lng=final[i].location[1], revbracket='}', quote="'", event=final[i].event, endquote="'", trucks=final[i].trucks, alarm=final[i].alarm))
+    markers.append("{number}: {bracket}center: {bracket}lat: {lat}, lng: {lng}{revbracket}, situation: {quote}{situation}{endquote}, trucks: {trucks}, alarm: {quote}{alarm}{endquote}{revbracket}".format(number=i, bracket='{', lat=final[i].location[0], lng=final[i].location[1], revbracket='}', quote="'", situation=final[i].event, endquote="'", trucks=final[i].trucks, alarm=final[i].alarm))
 
 # print(markers)
 
@@ -209,7 +209,7 @@ with open('map.html', 'w') as f:
 <head>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
-    <title>Circles</title>
+    <title>Fire Map</title>
     <style>
       /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
@@ -240,21 +240,21 @@ with open('map.html', 'w') as f:
         {revbrack});
 
         // Construct the circle for each value in eventMap.
-        for (var event in eventMap) {brack}
-          if (eventMap[event].event == 'Fire'){brack}
+        for (i in eventMap) {brack}
+          if (eventMap[i].situation == 'Fire'){brack}
                 var value = '#e62e00'
-            {revbrack} else if (eventMap[event].event == 'Medical'){brack}
+            {revbrack} else if (eventMap[i].situation == 'Medical'){brack}
                 var value = '#2e2eb8'
-            {revbrack} else if (eventMap[event].event == 'Alarm'){brack}
+            {revbrack} else if (eventMap[i].situation == 'Alarm'){brack}
                 var value = '#ffff80'
-            {revbrack} else if (eventMap[event].event == 'Vehicle') {brack}
+            {revbrack} else if (eventMap[i].situation == 'Vehicle') {brack}
                 var value = '#008B8B'
             {revbrack} else{brack}
                 var value = '#79d279'{revbrack}
-          if (eventMap[event].alarm == 'None'){brack}
+          if (eventMap[i].alarm == 'None'){brack}
                 var alarm = 0
           {revbrack}else{brack}
-                var alarm = parseInt(eventMap[event].alarm){revbrack}
+                var alarm = parseInt(eventMap[i].alarm){revbrack}
           if (alarm == 1){brack}
                 var value = '#e68200'
           {revbrack}
@@ -282,14 +282,14 @@ with open('map.html', 'w') as f:
             fillColor: value,
             fillOpacity: 0.5,
             map: map,
-            center: eventMap[event].center,
+            center: eventMap[i].center,
             radius: 50
           {revbrack});
         {revbrack}
       {revbrack}
     </script>
     <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCrehsqQVFG2y8JDxrGwnsTlRoxK47dIyw&callback=initMap">
+    src="https://maps.googleapis.com/maps/api/js?key=ADD_YOUR_KEY&callback=initMap">
     </script>
 </body>
 </html>""".format(brack='{', values=str, revbrack='}'))
