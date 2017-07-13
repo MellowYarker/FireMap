@@ -14,9 +14,9 @@
 4. Once map.html is created, open it in a browser.
 ### Notes <br />
 
-I'm not a fan of how slow the process of geocoding is compared to accessing an existing geocode.<br />
+* I'm not a fan of how slow the process of geocoding is compared to accessing an existing geocode.<br />
 	* If I find a decent open source dataset of all the intersections in Toronto and their geocodes, I'll try to implement that.<br />
-A legend still needs to be added:<br />
+* A legend still needs to be added:<br />
 	* Lighter Bluish/Green = Vehicle <br />
 	* Darker Blue = Medical<br />
 	* Green = Alarm<br />
