@@ -15,10 +15,6 @@ class Event:
         self.trucks = event[2]
         # self.time = event[5]
         self.alarm = event[4]
-        # if self.event == 'Fire':
-        #     self.alarm = event[4]
-        # else:
-        #     self.alarm = None
 
 if __name__ == "__main__":
     event1 = ['Alarm Highrise Residential', 'Lee Centre Dr and Corporate Dr', 7]
