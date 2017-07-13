@@ -23,12 +23,16 @@
 	* Shades of Red or just Black = Fire (the darker the colour the more severe, black being the most dangerous level.)<br />
 	* Pink = Other<br /><br />
 
-This needs a lot of work, the basic functionality is there but there's a lot of redundant code; it's very 'hacked together'.<br />
-I'm sure some of the code is actually irrelevant as the functions were originally developed to splice a string of html that was parsed using *BeautifulSoup* (before using the Twitter API I just built a simple webcrawler to grab the HTML from the webpage).<br />
+* This needs a lot of work, the basic functionality is there but there's a lot of redundant code; it's very 'hacked together'.<br />
+* I'm sure some of the code is actually irrelevant as the functions were originally developed to splice a string of html that was parsed using *BeautifulSoup* (before using the Twitter API I just built a simple webcrawler to grab the HTML from the webpage).<br />
 
-The format.py file basically runs through like a script, which I don't really like. It's pretty challenging to follow the code, so I'll progressively turn everything into functions and possibly implement another class so that it's simple to follow.<br />
+* The format.py file basically runs through like a script, which I don't really like.
+	* It's pretty challenging to follow the code, so I'll progressively turn everything into functions and possibly implement another class so that it's simple to follow.<br />
 
-The idea is for it to use a MVC design. Accept inputs in browser, run computations in a model (class or file of functions), then display the result in a view.<br />
+* **The idea is for it to use a *MVC* design.**
+	* Accept inputs in browser, run computations in a model (class or file of functions), then display the result in a view.<br />
 
-The documentation is also pretty sparce, it'll be descriptive enough soon.<br /><br />
-At the moment, the map is pretty useless (due to the lack of a legend and any interactive features). I've been working with the backend so I can put a good chunk of time on the UI later, I might build a Django application where this fire map application will be part of something bigger.
+* The documentation is also pretty sparce, it'll be descriptive enough soon.
+
+* At the moment, the map is pretty useless (due to the lack of a legend and any interactive features). 	
+	* I've been working with the backend so I can put a good chunk of time on the UI later, I might build a Django application where this fire map application will be part of something bigger.
