@@ -165,3 +165,4 @@ with open('map.html', 'w') as f:
 
 
 print('Took {} seconds.'.format(int(time.time()-now)))
+print('The map has been created, open map.html in a browser to view it.')
