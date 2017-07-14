@@ -231,6 +231,7 @@ def geocode(tweets, codes={}, fails={}, failed_index=[]):
 
 def create_geocode(tweets, location, codes, fails, failed_index):
     """Try to create the geocode here, if it fails, try reformatting."""
+
     g = geocoder.google(tweets[location][1])
     if g.latlng != []:
         # print(g.latlng)
