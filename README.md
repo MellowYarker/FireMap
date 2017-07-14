@@ -16,7 +16,8 @@
 
 * I'm not a fan of how slow the process of geocoding is compared to accessing an existing geocode.<br />
 	* If I find a decent open source dataset of all the intersections in Toronto and their geocodes, I'll try to implement that.
-	* Until then I will continue to add locations (provided by the twitter page I get the data from) to increase the possibility of location matches in the future.<br />
+	* Until then I will continue to add locations (provided by the twitter page I get the data from) to increase the possibility of location matches in the future.
+	* I'll write a quick script to get a few thousand tweets every few days and geocode them, once the fails list gets large enough I'll write a program to find similarities that cause failures and I'll implement solutions in clean.py's reformat function. <br />
 * A legend still needs to be added:<br />
 	* Lighter Bluish/Green = Vehicle <br />
 	* Darker Blue = Medical<br />
@@ -24,16 +25,12 @@
 	* Shades of Red or just Black = Fire (the darker the colour the more severe, black being the most dangerous level.)<br />
 	* Pink = Other<br /><br />
 
-* This needs a lot of work, the basic functionality is there but there's a lot of redundant code; it's very 'hacked together'.<br />
 * I'm sure some of the code is actually irrelevant as the functions were originally developed to splice a string of html that was parsed using *BeautifulSoup* (before using the Twitter API I just built a simple webcrawler to grab the HTML from the webpage).<br />
-
-* The format.py file basically runs through like a script, which I don't really like.
-	* It's pretty challenging to follow the code, so I'll progressively turn everything into functions and possibly implement another class so that it's simple to follow.<br />
 
 * **The idea is for it to use a *MVC* design.**
 	* Accept inputs in browser, run computations in a model (class or file of functions), then display the result in a view.<br />
 
-* The documentation is also pretty sparce, it'll be descriptive enough soon.
+* The documentation is also pretty scarce, it'll be descriptive enough soon.
 
-* At the moment, the map is pretty useless (due to the lack of a legend and any interactive features). 	
+* At the moment, the map is pretty useless (due to the lack of a legend and any interactive features).
 	* I've been working with the backend so I can put a good chunk of time on the UI later, I might build a Django application where this fire map application will be part of something bigger.
