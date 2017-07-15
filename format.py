@@ -5,15 +5,16 @@ import pickle
 import time
 
 now = time.time()
-
+print('Starting\n')
 # Get the tweets from extracted.txt
 fname = 'extracted.txt'
 with open(fname, 'r') as f:
     text = f.readlines()
 
 # format them to make them easier to work with
+print("Formatting tweets...")
 tweet_list = clean.check_type(text)
-
+print("Done!\n")
 # Check if updates.txt exists (if it does that means some tweets were updated
 # so there won't be as many events on the map as there were tweets pulled from
 # Twitter)
@@ -37,9 +38,10 @@ if os.path.exists(os.getcwd() + '/failed'):
 else:
     fails = {}
 
+print("Geocoding locations; this could take some time...")
 # Try turning text locations to geocodes here.
 clean.geocode(tweet_list, codes, fails, failed_index)
-
+print("Done!\n")
 # New codes might have been created. Serialize them to access them later
 with open('geocodes', 'wb') as values:
     pickle.dump(codes, values)
@@ -48,10 +50,11 @@ with open('geocodes', 'wb') as values:
 with open('failed', 'wb') as failures:
     pickle.dump(fails, failures)
 
+print("Removing any locations that failed to be geocoded...")
 # Remove locations that couldn't be geocoded
 # Put all locations that could not be geocoded into a list
 failed_locations = clean.remove_failures(tweet_list, failed_index)
-
+print("Done!\n")
 # Turn every event into an Event object
 final = []
 for i in tweet_list:
@@ -73,6 +76,7 @@ for i in range(len(markers)):
     else:
         str += markers[i]
 
+print("Building the map...")
 # Create the map
 with open('map.html', 'w') as f:
     f.write("""<!DOCTYPE html>
@@ -165,6 +169,6 @@ with open('map.html', 'w') as f:
 </body>
 </html>""".format(brack='{', values=str, revbrack='}'))
 
-
+print("Done!\n")
 print('Took {} seconds.'.format(int(time.time()-now)))
 print('The map has been created, open map.html in a browser to view it.')
