@@ -7,13 +7,16 @@ import geocoder
 
 
 def to_int(tweet):
-    """(3 element list) -> 3 element list
-
+    """
     Take the fully spliced tweet and turn the last value into an individual int
+
+    @type tweet: list
+    @rtype: None
 
     >>> to_int(['Vehicle (Personal Injury Highway)', 'North York', '3 trucks'])
     ['Vehicle (Personal Injury Highway)', 'North York', 3]
-    """
+   """
+
     trucks = ''
     for i in tweet[2]:
         if i.isdigit():
@@ -22,14 +25,23 @@ def to_int(tweet):
 
 
 def cut(tweet):
-    """(list) -> list
+    """ Remove everything after '/' in the location index
 
-    Remove everything after '/' in location index
+    @type tweet: list
+    @rtype: None
 
-    >>> cut(['Alarm Highrise Residential', \
-    'Greenbrae Crct and Sedgemount Dr Greenholm Crct', 6])
-    ['Alarm Highrise Residential', 'Greenbrae Crct and Sedgemount Dr', 6]
+    >>> tweet = ['Alarm Highrise Residential', \
+    'Yonge St and Balliol St / Chaplin Crescent', 6]
+    >>> cut(tweet)
+    >>> print(tweet)
+    ['Alarm Highrise Residential', 'Yonge St and Balliol St, Toronto', 6]
+
+    >>> tweet = ['Event', 'Bleecker St and St James Avenue / Howard St', 4]
+    >>> cut(tweet)
+    >>> print(tweet)
+    ['Event', 'Bleecker St and St James Avenue, Toronto', 4]
     """
+
     if '/' in tweet[1]:
         end = tweet[1].find('/')
         tweet[1] = tweet[1][:end-1] + ', Toronto'
@@ -37,10 +49,18 @@ def cut(tweet):
 
 def check_type(tweets):
     """Take a list of tweets and determine what to do with each tweet.
-    >>> test = ['UD: Medical (Unconscious) - Drovers Lane @ Verner Lane, (3 Trucks)', 'Medical (Unconscious) - Drovers Lane @ Verner Lane, Toronto (2 Trucks)']
+
+    @type tweets: list[list[string]]
+    @rtype: list[list[]]
+
+    >>> test = [\
+    'UD: Medical (Unconscious) - Drovers Lane @ Verner Lane, (3 Trucks)', \
+    'Medical (Unconscious) - Drovers Lane @ Verner Lane, Toronto (2 Trucks)']
     >>> print(check_type(test))
-     [['Medical (Unconscious)', 'Drovers Lane @ Verner Lane', 3, 'Medical', None]]
-    >>> tweet = ['Check Call - Yonge St b/w Asquith Avenue / Yorkville Avenue, (3 Trucks)']
+    [['Medical (Unconscious)', 'Drovers Lane @ Verner Lane', 3, 'Medical', None]]
+
+    >>> tweet = [\
+    'Check Call - Yonge St b/w Asquith Avenue / Yorkville Avenue, (3 Trucks)']
     >>> print(check_type(tweet))
     [['Check Call', 'Yonge St and Asquith Avenue, Toronto', 3, 'Other', None]]
     """
@@ -84,8 +104,18 @@ def check_type(tweets):
     return event_list
 
 
+# TODO write a proper doctest for this that shows how it is used
 def exists(events, tweet):
-    """ Return True if a tweet has already been updated and False otherwise"""
+    """ Return True if a tweet has already been updated and False otherwise
+
+    @type events: list
+    @type tweet: list
+    @rtype: Bool
+
+    >>> print(exists([[1], [2], [3], [4]], [1, 2, 3, "Other"]))
+    True
+    """
+
     flag = False
     for event in events:
         if tweet[1] in event and (tweet[3] in event or tweet[3] == 'Other'):
@@ -94,17 +124,28 @@ def exists(events, tweet):
 
 
 def regular(tweet):
-    """Format a regular tweet
+    """ Format a tweet to make it easier to access individual elements of it.
 
-    >>> test = 'Alarm Residential - Botfield Avenue b/w Tyre Avenue / Mattice Avenue, Etobicoke (6 Trucks)'
+    @type tweet: string
+    @rtype: list
+
+    >>> test = 'Alarm Residential - Botfield Avenue b/w Tyre'\
+    + ' Avenue / Mattice Avenue, Etobicoke (6 Trucks)'
     >>> print(regular(test))
     ['Alarm Residential', 'Botfield Avenue and Tyre Avenue, Toronto', 6, 'Alarm', None]
+
+    >>> test = 'Medical (Unconscious) - Donlands Avenue b/w Memorial' \
+    + ' Park Avenue / Cosburn Avenue, East York (2 Trucks)'
+    >>> print(regular(test))
+    ['Medical (Unconscious)', 'Donlands Avenue and Memorial Park Avenue, Toronto', 2, 'Medical', None]
     """
     new_tweet = []
-    strip_newline(tweet)
     level = None
     # Check if there is an alarm level
-    check_alarm(tweet, level)
+    if 'Alm]' in tweet:
+        level = int(tweet[1:2])
+        # Remove redundant [int alm]
+        tweet = tweet[8:]
     # Replace b/w with 'and' for formatting purposes (for now)
     if "b/w" in tweet:
         tweet = tweet.replace("b/w", "and")
@@ -125,19 +166,29 @@ def regular(tweet):
     cut(new_tweet)
     first = new_tweet[0].split()[0]
     # Add the event type to the new list
-    add_event(new_tweet, first, level)
-    # print(new_tweet)
+    add_event(new_tweet, level, first)
     return new_tweet
 
 
 def update(tweet):
     """Format an updated tweet
 
-    >>> test
+    @type tweet: string
+    @rtype: list
+
+    >>> test = 'UD: Medical (Unconscious) - Donlands Avenue b/w Memorial'\
+    + ' Park Avenue / Cosburn Avenue, East York (3 Trucks)'
+    >>> print(update(test))
+    ['Medical (Unconscious)', 'Donlands Avenue and Memorial Park Avenue, Toronto', 3, 'Medical', None]
+
+    >>> test = 'UD: [3 Alm] Fire - Botfield Avenue b/w Tyre'\
+    + ' Avenue / Mattice Avenue, Etobicoke (6 Trucks)'
+    >>> print(update(test))
+    ['Fire', 'Botfield Avenue and Tyre Avenue, Toronto', 6, 'Fire', 3]
     """
+
     new_tweet = []
 
-    strip_newline(tweet)
     # Remove first 4 characters
     tweet = tweet[4:]
     level = None
@@ -147,7 +198,10 @@ def update(tweet):
     # Determine where to splice
     else:
         # Check if there is an alarm level
-        check_alarm(tweet, level)
+        if 'Alm]' in tweet:
+            level = int(tweet[1:2])
+            # Remove redundant [int alm]
+            tweet = tweet[8:]
         val1 = tweet.find('-')
 
         # Second half of tweet
@@ -163,30 +217,27 @@ def update(tweet):
         # Change last str to int
         to_int(new_tweet)
 
-        # print(lst)
         first = new_tweet[0].split()[0]
         # Add the event type to the new list
-        add_event(new_tweet, first, level)
+        add_event(new_tweet, level, first)
         return new_tweet
 
 
-def strip_newline(tweet):
-    """ If the final character in the tweet is a newline, remove it."""
-    if tweet[-1] == '\n':
-        tweet = tweet[:-1]
+def add_event(lst, alarm, first=''):
+    """
+    A helper function for regular and update. Adds the event type to the tweet.
 
+    @type lst: list
+    @type first: string
+    @type alarm: int | None
+    @rtype: None
 
-def check_alarm(tweet, level):
-    """Check if a tweet has an alarm level"""
-    if 'Alm]' in tweet:
-        level = int(tweet[1:2])
-        # Remove redundant [int alm]
-        tweet = tweet[8:]
-
-
-def add_event(lst, first, alarm):
-    """ A helper function for regular and update.
-    Adds the event type to the tweet"""
+    >>> lst = ['Fire', 'Botfield Avenue and Tyre Avenue, Toronto', 6]
+    >>> alarm = 3
+    >>> add_event(lst, alarm)
+    >>> print(lst)
+    ['Fire', 'Botfield Avenue and Tyre Avenue, Toronto', 6, 'Fire', 3]
+    """
     if 'Alarm' in lst[0]:
         lst.append('Alarm')
     elif 'Fire' in lst[0]:
@@ -200,71 +251,105 @@ def add_event(lst, first, alarm):
     lst.append(alarm)
 
 
+# TODO: The geocoder library sometimes raises a lot of exceptions which breaks the script. Try to fail more elegantly or something...
 def geocode(tweets, codes={}, fails={}, failed_index=[]):
     """Turn the text location in every tweet to a functional geocode to be mapped.
 
-    >>> test = [['Alarm Residential', 'Botfield Avenue and Tyre Avenue, Toronto', 6, 'Alarm', None]]
-    >>> for event in test:
-    ...     geocode(test)
+    @type tweets: list[list]
+    @type codes: Dict
+    @type fails: Dict
+    @type failed_index: list
+    @rtype: None
+
+    >>> test = [['Alarm Residential',\
+     'Botfield Avenue and Tyre Avenue, Toronto', 6, 'Alarm', None]]
+    >>> geocode(test)
     >>> print(test)
-     [['Alarm Residential', [43.6444117, -79.53954139999999], 6, 'Alarm', None]]
+    [['Alarm Residential', [43.6444117, -79.53954139999999], 6, 'Alarm', None]]
+
+    >>> fail_ex = [['Medical (trouble breathing)',\
+     'meant_to_fail', 2, 'Medical', None]]
+    >>> geocode(fail_ex)
+    >>> print(fail_ex)
+    [['Medical (trouble breathing)', 'meant_to_fail', 2, 'Medical', None]]
     """
-    for location in range(len(tweets)):
-        # print(str(location) + ': ', tweet_list[location][1])
+    for tweet in range(len(tweets)):
         # Make sure the location hasn't already been geocoded
-        if not isinstance(tweets[location][1], list):
+        if not isinstance(tweets[tweet][1], list):
             # If the geocode dictionary is not empty
             if len(codes) > 0:
                 # Check if the location is in the dictionary
-                if tweets[location][1] in codes:
+                if tweets[tweet][1] in codes:
                     # If it is, use that geocode.
-                    tweets[location][1] = codes[tweets[location][1]]
+                    tweets[tweet][1] = codes[tweets[tweet][1]]
                 # If the dictionary of locations that failed is not empty
                 else:
-                    check_fails(tweets, location, codes, fails, failed_index)
+                    check_fails(tweets, tweet, codes, fails, failed_index)
             # If the geocode dictionary is empty
             else:
-                check_fails(tweets, location, codes, fails, failed_index)
+                check_fails(tweets, tweet, codes, fails, failed_index)
                 if len(fails) <= 0:
-                    create_geocode(tweets, location, codes, fails, failed_index)
+                    create_geocode(tweets, tweet, codes, fails, failed_index)
 
 
-def create_geocode(tweets, location, codes, fails, failed_index):
-    """Try to create the geocode here, if it fails, try reformatting."""
+def create_geocode(tweets, tweet, codes={}, fails={}, failed_index=[]):
+    """Try to create the geocode here, if it fails, try reformatting.
 
-    g = geocoder.google(tweets[location][1])
+    @type tweets: list[list]
+    @type tweet: list
+    @type codes: Dict
+    @type fails: Dict
+    @type failed_index: list
+    @rtype: None
+
+    >>> test = [['Alarm Residential',\
+     'Botfield Avenue and Tyre Avenue, Toronto', 6, 'Alarm', None]]
+    >>> for i in range(len(test)):
+    ...     create_geocode(test, i)
+    >>> print(test)
+    [['Alarm Residential', [43.6444117, -79.53954139999999], 6, 'Alarm', None]]
+    """
+
+    g = geocoder.google(tweets[tweet][1])
     if g.latlng != []:
-        # print(g.latlng)
-        codes[tweets[location][1]] = g.latlng
-        tweets[location][1] = g.latlng
+        codes[tweets[tweet][1]] = g.latlng
+        tweets[tweet][1] = g.latlng
     else:
-        retry = reformat(tweets[location][1])
+        retry = reformat(tweets[tweet][1])
         g = geocoder.google(retry)
         if g.latlng != []:
-            # print(g.latlng)
-            codes[tweets[location][1]] = g.latlng
-            tweets[location][1] = g.latlng
+            codes[tweets[tweet][1]] = g.latlng
+            tweets[tweet][1] = g.latlng
         else:
-            fails[tweets[location][1]] = 1
-            failed_index.append(location)
+            fails[tweets[tweet][1]] = 1
+            failed_index.append(tweet)
 
 
-def check_fails(tweets, location, codes, fails, failed_index):
-    """"""
+def check_fails(tweets, tweet, codes={}, fails={}, failed_index=[]):
+    """If the location is in the fails dictionary, increase the count of fails,
+    otherwise create a new code.
+
+    @type tweets: list[list]
+    @type tweet: list
+    @type codes: Dict
+    @type fails: Dict
+    @type failed_index: list
+
+    """
     # If the fails dictionary is not empty
     if len(fails) > 0:
         # Check if it is in this dictionary
-        if tweets[location][1] in fails:
+        if tweets[tweet][1] in fails:
             # If it is, increase the count of failures
             # on that location.
             # And add it's index to failed index (for later)
 
-            fails[tweets[location][1]] += 1
-            failed_index.append(location)
+            fails[tweets[tweet][1]] += 1
+            failed_index.append(tweet)
         # If it is not in the dictionary,
         # create the geocode and add it to the correct dictionary.
         else:
-            create_geocode(tweets, location, codes, fails,
+            create_geocode(tweets, tweet, codes, fails,
                            failed_index)
 
 
@@ -272,13 +357,17 @@ def reformat(tweet):
     """Make a location description more geocode friendly, sometimes geocoding
     fails due to difficult location descriptions.
 
+    @type tweet: string
+    @rtype: string
+
     >>> a = 'Martin Grove Road and Martin Grove South Albion West Ramp'
     >>> b = 'Calderstone Crescent and Dear Gt'
     >>> reformat(a)
+    'Martin Grove Road and Albion Ramp '
     >>> reformat(b)
-
-
+    'Calderstone Crescent and Dear Gate '
     """
+
     # Remove n, s, e, w
     compass = ['North', 'South', 'East', 'West']
     for i in compass:
@@ -307,8 +396,13 @@ def reformat(tweet):
     return final_string
 
 
-def remove_failures(tweets, failed):
-    """Delte all locations that could not be geocoded and return them
+def remove_failures(tweets, failed=[]):
+    """Delete all locations that could not be geocoded and return them
+
+    @type tweets: list[list]
+    @type failed: list
+    @rtype: list
+
     """
     failed_locations = []
     if len(failed) > 0:
