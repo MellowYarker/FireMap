@@ -6,15 +6,17 @@ import time
 
 now = time.time()
 
+# Get the tweets from extracted.txt
 fname = 'extracted.txt'
 with open(fname, 'r') as f:
     text = f.readlines()
 
+# format them to make them easier to work with
 tweet_list = clean.check_type(text)
 
 # Check if updates.txt exists (if it does that means some tweets were updated
 # so there won't be as many events on the map as there were tweets pulled from
-# Twitter
+# Twitter)
 if os.path.exists(os.getcwd()+'/updates.txt'):
     with open('updates.txt', 'r') as f:
         updates = f.readline()
