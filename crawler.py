@@ -1,9 +1,10 @@
 import json
 import oauth2 as oauth
+
 consumer_key = 'ADD_YOUR_KEY'
 consumer_secret = 'ADD_YOUR_KEY'
 
-access_token = 'ADD_YOUR_KEY'
+access_token = 'ADD_YOUR_KEY-qgG0HddwwkI2YImAzA7XdKobmLtjD5l'
 access_token_secret = 'ADD_YOUR_KEY'
 
 consumer = oauth.Consumer(key=consumer_key, secret=consumer_secret)
