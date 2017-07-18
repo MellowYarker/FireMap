@@ -65,7 +65,7 @@ for i in tweet_list:
 # TODO Add description to a marker
 markers = []
 for i in range(len(final)):
-    markers.append("{number}: {bracket}center: {bracket}lat: {lat}, lng: {lng}{revbracket}, situation: {quote}{situation}{endquote}, trucks: {trucks}, alarm: {quote}{alarm}{endquote}{revbracket}".format(number=i, bracket='{', lat=final[i].location[0], lng=final[i].location[1], revbracket='}', quote="'", situation=final[i].event, endquote="'", trucks=final[i].trucks, alarm=final[i].alarm))
+    markers.append("{number}: {bracket}center: {bracket}lat: {lat}, lng: {lng}{revbracket}, situation: {quote}{situation}{endquote}, description: {quote}{description}{endquote}, trucks: {trucks}, alarm: {quote}{alarm}{endquote}{revbracket}".format(number=i, bracket='{', lat=final[i].location[0], lng=final[i].location[1], revbracket='}', quote="'", situation=final[i].event, description=final[i].description, endquote="'", trucks=final[i].trucks, alarm=final[i].alarm))
 
 # print(markers)
 
@@ -153,6 +153,8 @@ with open('map.html', 'w') as f:
           {revbrack}
         {revbrack};
 
+		var counter = 0;
+
         // Construct the circle for each value in eventMap.
         for (i in eventMap) {brack}
           if (eventMap[i].situation == 'Fire'){brack}
@@ -196,9 +198,13 @@ with open('map.html', 'w') as f:
             fillColor: value,
             fillOpacity: 0.5,
             map: map,
+            clickable: true,
+            description: eventMap[i].description,
             center: eventMap[i].center,
             radius: 50
           {revbrack});
+          createClickableCircle(map, eventCircle, eventMap[i].description);
+          counter++;
         {revbrack}
       var legend = document.getElementById('legend');
       for (var key in circles) {brack}
@@ -209,8 +215,18 @@ with open('map.html', 'w') as f:
         div.innerHTML = '<div style="float: left"><img src="' + colour + '"> ' + name;
         legend.appendChild(div);
       {revbrack}
+      function createClickableCircle(map, circle, info){brack}
+        var infowindow =new google.maps.InfoWindow({brack}
+        content: info
+        {revbrack});
+        google.maps.event.addListener(circle, 'click', function(ev) {brack}
+          // alert(infowindow.content);
+          infowindow.setPosition(circle.getCenter());
+          infowindow.open(map);
+        {revbrack});
+    {revbrack}
 
-      map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(legend);
+    map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(legend);
     {revbrack}
     </script>
     <script async defer
