@@ -20,13 +20,14 @@
 	        1. Having a massive file of intersections
 	        2. Overhauling a lot of code
 	* Until then I will continue to add locations (provided by the twitter page I get the data from) to increase the possibility of location matches in the future.
-	    * To do this I wrote a simple script to gather a few thousand tweets every 2 days and try geocoding them.
-			* After this a shell script is executed and it pushes the changes to github so you can access the same dictionaries I can.
-	    * once the *fails* list is large enough I'll write a program to find similarities that cause failures and I'll implement solutions in clean.py's reformat function.<br />
+	    * To do this I wrote a simple script to gather a few thousand tweets every 2 days then try geocoding them.
+			* After this a shell script is executed and it pushes the changes to github so you can access the same dictionaries that I can.
+	    * Once the *fails* list is large enough I'll write a program to find similarities that cause failures and I'll implement solutions in clean.py's reformat function.<br />
 
-* The legend needs improvement, I'll add a number line with circles explaining alarm levels
+* The legend needs improvement, I'll add a number line with icons explaining alarm levels.
 * **The idea is for it to use a *MVC* design.**
 	* Accept inputs in browser, run computations in a model (class or file of functions), then display the result in a view.<br />
+	* It'll work like this once I've completed the backend. 
 
 * I'll be adding more descriptive docstrings over time. The doctests in clean.py should give a pretty good intuition of what each function does.
 
