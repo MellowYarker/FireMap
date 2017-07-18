@@ -78,6 +78,8 @@ for i in range(len(markers)):
 
 print("Building the map...")
 # Create the map
+
+# TODO add current working directory to icons
 with open('map.html', 'w') as f:
     f.write("""<!DOCTYPE html>
 <html>
@@ -97,10 +99,21 @@ with open('map.html', 'w') as f:
         margin: 0;
         padding: 0;
       {revbrack}
+      #legend {brack}
+        font-family: Arial, sans-serif;
+        background: #fff;
+        padding: 20px;
+        margin: 20px;
+        border: 2px solid #000;
+      {revbrack}
+      #legend h3 {brack}
+        margin-top: 0;
+      {revbrack}
     </style>
   </head>
   <body>
     <div id="map"></div>
+    <div id="legend"><h3>Legend</h3></div>
     <script>
 
 
@@ -114,16 +127,40 @@ with open('map.html', 'w') as f:
           center: {brack}lat: 43.7181552, lng: -79.5184833{revbrack},
         {revbrack});
 
+        icons = '/Users/Milan/Documents/Programming/Projects/FireMap/FireMap/icons/'
+        var circles = {brack}
+          fire: {brack}
+            name: 'Fire',
+            colour: icons + 'Red.png'
+          {revbrack},
+          alarm: {brack}
+            name: 'Alarm',
+            colour: icons + 'Yellow.png'
+          {revbrack},
+          medical: {brack}
+            name: 'Medical',
+            colour: icons + 'Blue.png'
+          {revbrack},
+          vehicle: {brack}
+            name: 'Vehicle',
+            colour: icons + 'Teal.png'
+          {revbrack},
+          other: {brack}
+            name: 'Other',
+            colour: icons + 'Green.png'
+          {revbrack}
+        {revbrack};
+
         // Construct the circle for each value in eventMap.
         for (i in eventMap) {brack}
           if (eventMap[i].situation == 'Fire'){brack}
                 var value = '#e62e00'
             {revbrack} else if (eventMap[i].situation == 'Medical'){brack}
-                var value = '#2e2eb8'
+                var value = '#4545e0'
             {revbrack} else if (eventMap[i].situation == 'Alarm'){brack}
                 var value = '#ffff80'
             {revbrack} else if (eventMap[i].situation == 'Vehicle') {brack}
-                var value = '#008B8B'
+                var value = '#00a8a8'
             {revbrack} else{brack}
                 var value = '#79d279'{revbrack}
           if (eventMap[i].alarm == 'None'){brack}
@@ -161,10 +198,21 @@ with open('map.html', 'w') as f:
             radius: 50
           {revbrack});
         {revbrack}
+      var legend = document.getElementById('legend');
+      for (var key in circles) {brack}
+        var type = circles[key];
+        var name = type.name;
+        var colour = type.colour;
+        var div = document.createElement('div');
+        div.innerHTML = '<div style="float: left"><img src="' + colour + '"> ' + name;
+        legend.appendChild(div);
       {revbrack}
+
+      map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(legend);
+    {revbrack}
     </script>
     <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=ADD_YOUR_KEY&callback=initMap">
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCrehsqQVFG2y8JDxrGwnsTlRoxK47dIyw&callback=initMap">
     </script>
 </body>
 </html>""".format(brack='{', values=str, revbrack='}'))
