@@ -77,9 +77,11 @@ for i in range(len(markers)):
         str += markers[i]
 
 print("Building the map...")
-# Create the map
 
-# TODO add current working directory to icons
+# link to icons
+icon = os.getcwd() + '/icons/'
+
+# Create the map
 with open('map.html', 'w') as f:
     f.write("""<!DOCTYPE html>
 <html>
@@ -127,7 +129,7 @@ with open('map.html', 'w') as f:
           center: {brack}lat: 43.7181552, lng: -79.5184833{revbrack},
         {revbrack});
 
-        icons = '/Users/Milan/Documents/Programming/Projects/FireMap/FireMap/icons/'
+        icons = '{icons}'
         var circles = {brack}
           fire: {brack}
             name: 'Fire',
@@ -212,10 +214,10 @@ with open('map.html', 'w') as f:
     {revbrack}
     </script>
     <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCrehsqQVFG2y8JDxrGwnsTlRoxK47dIyw&callback=initMap">
+    src="https://maps.googleapis.com/maps/api/js?key=ADD_YOUR_KEY&callback=initMap">
     </script>
 </body>
-</html>""".format(brack='{', values=str, revbrack='}'))
+</html>""".format(brack='{', values=str, revbrack='}', icons=icon))
 
 print("Done!\n")
 print('Took {} seconds.'.format(int(time.time()-now)))
