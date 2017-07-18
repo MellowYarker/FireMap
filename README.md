@@ -21,18 +21,12 @@
 	        2. Overhauling a lot of code
 	* Until then I will continue to add locations (provided by the twitter page I get the data from) to increase the possibility of location matches in the future.
 	    * To do this I wrote a simple script to gather a few thousand tweets every 2 days and try geocoding them.
-	    * once the *fails* list is large enough I'll write a program to find similarities that cause failures and I'll implement solutions in clean.py's reformat funciton.<br />
-* A legend still needs to be added:<br />
-	* Lighter Bluish/Green = Vehicle <br />
-	* Darker Blue = Medical<br />
-	* Green = Alarm<br />
-	* Shades of Red or just Black = Fire (the darker the colour the more severe, black being the most dangerous level.)<br />
-	* Pink = Other<br /><br />
+	    * once the *fails* list is large enough I'll write a program to find similarities that cause failures and I'll implement solutions in clean.py's reformat function.<br />
 
+* The legend needs improvement, I'll add a number line with circles explaining alarm levels
 * **The idea is for it to use a *MVC* design.**
 	* Accept inputs in browser, run computations in a model (class or file of functions), then display the result in a view.<br />
 
 * I'll be adding more descriptive docstrings over time. The doctests in clean.py should give a pretty good intuition of what each function does.
 
-* At the moment, the map is pretty useless (due to the lack of a legend and any interactive features).
-	* I've been working with the backend so I can put a good chunk of time on the UI later, I might build a Django application where this fire map application will be part of something bigger.
+* The map is becoming more useable. I need to do a little more work on the backend before I can work on UI. 
