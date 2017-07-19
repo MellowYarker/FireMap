@@ -13,7 +13,7 @@
 	* If you run it again it shouldn't take more than a few seconds as the locations that did not have geocodes before have been added to a dictionary and serialized in the geocodes file.
 4. Once map.html is created, open it in a browser.
 
-![Alt text](/MellowYarker/FireMap/tree/master/screenshots/map.png?raw=true "Map Example")<br />
+![Map](https://github.com/MellowYarker/FireMap/blob/master/screenshots/map.png?raw=true "Map Example")<br />
 ### Notes <br />
 
 * I'm not a fan of how slow the process of geocoding is compared to accessing an existing geocode.<br />
