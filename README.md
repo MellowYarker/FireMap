@@ -1,6 +1,10 @@
 # FireMap <br />
 ### Autogenerate a map that displays emergencies that the Toronto Fire Department has responded to.
 
+* *Before this can work you'll need to install some python libraries.*
+1. Open a terminal and navigate to the directory you saved this repo in
+2. Type the following
+	* sh install_dependencies.sh
 ### How to run it <br />
 1. Add your API keys
 	1. Twitter API tokens in crawler.py
