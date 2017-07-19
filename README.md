@@ -12,6 +12,8 @@
 		* Geocoding takes the bulk of the time
 	* If you run it again it shouldn't take more than a few seconds as the locations that did not have geocodes before have been added to a dictionary and serialized in the geocodes file.
 4. Once map.html is created, open it in a browser.
+
+![Alt text](/MellowYarker/FireMap/tree/master/screenshots/map.png?raw=true "Map Example")<br />
 ### Notes <br />
 
 * I'm not a fan of how slow the process of geocoding is compared to accessing an existing geocode.<br />
@@ -27,7 +29,7 @@
 * The legend needs improvement, I'll add a number line with icons explaining alarm levels.
 * **The idea is for it to use a *MVC* design.**
 	* Accept inputs in browser, run computations in a model (class or file of functions), then display the result in a view.<br />
-	* It'll work like this once I've completed the backend. 
+	* It'll work like this once I've completed the backend.
 
 * I'll be adding more descriptive docstrings over time. The doctests in clean.py should give a pretty good intuition of what each function does.
 
