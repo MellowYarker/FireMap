@@ -18,8 +18,16 @@
 4. Once map.html is created, open it in a browser.
 
 ![Map](https://github.com/MellowYarker/FireMap/blob/master/screenshots/map.png?raw=true "Map Example")<br />
-### Notes <br />
+### NOTICE <br />
 
+* I've lost a lot of interest in this project as it's similar to what I set out to do in the first place, map emergencies.
+	* At the time of writing you run a python script that does everything, I was hoping to have it work by clicking a button on a web page.
+	* I also planned on trying to track fire trucks, and finding optimal routes from fire stations to emergency locations.
+	* Events aren't very descriptive at the moment either, there aren't even timestamps.
+	* These things shouldn't be **too** difficult to implement, but at the moment there are more interesting projects for me to work on.
+* I may add to this over time but for now it's done. <br />
+
+### Notes <br />
 * I'm not a fan of how slow the process of geocoding is compared to accessing an existing geocode.<br />
 	* If I find a decent open source dataset of all the intersections in Toronto and their geocodes, I'll try to implement that.
 	    * Obvious downsides to this:
@@ -37,4 +45,4 @@
 
 * I'll be adding more descriptive docstrings over time. The doctests in clean.py should give a pretty good intuition of what each function does.
 
-* The map is becoming more useable. I need to do a little more work on the backend before I can work on UI.
+* The map is becoming more usable. I need to do a little more work on the backend before I can work on UI.
