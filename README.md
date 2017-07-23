@@ -20,11 +20,11 @@
 ![Map](https://github.com/MellowYarker/FireMap/blob/master/screenshots/map.png?raw=true "Map Example")<br />
 ### NOTICE <br />
 
-* I've lost a lot of interest in this project as it's similar to what I set out to do in the first place, map emergencies.
-	* At the time of writing you run a python script that does everything, I was hoping to have it work by clicking a button on a web page.
+* I'm not too invested in this project anymore because the rest is just developing functionality and design. It's not that I'm not interested in that stuff it's just not worth my time to continue the development. I built this tool for fun, not for usability, I accomplished what I set out to do.
+	* At the time of writing you run a python script that does everything, I was hoping to have it work by clicking a 'scan' button on a web page.
 	* I also planned on trying to track fire trucks, and finding optimal routes from fire stations to emergency locations.
 	* Events aren't very descriptive at the moment either, there aren't even timestamps.
-	* These things shouldn't be **too** difficult to implement, but at the moment there are more interesting projects for me to work on.
+	* These things shouldn't be very difficult to implement.
 * I may add to this over time but for now it's done. <br />
 
 ### Notes <br />
@@ -38,10 +38,8 @@
 			* After this a shell script is executed and it pushes the changes to github so you can access the same dictionaries that I can.
 	    * Once the *fails* list is large enough I'll write a program to find similarities that cause failures and I'll implement solutions in clean.py's reformat function.<br />
 
-* The legend needs improvement, I'll add a number line with icons explaining alarm levels.
-* **The idea is for it to use a *MVC* design.**
-	* Accept inputs in browser, run computations in a model (class or file of functions), then display the result in a view.<br />
-	* It'll work like this once I've completed the backend.
+* The legend needs improvement, a number line with coloured circles depicting alarm levels needs to be added
+* Some tweets say b/w in the text, which means "between". For example "Yonge St b/w Bloor/ college" which means "Yonge street between Bloor and college". Instead of getting a point in between I just picked one of the streets and removed the other. 
 
 * I'll be adding more descriptive docstrings over time. The doctests in clean.py should give a pretty good intuition of what each function does.
 
