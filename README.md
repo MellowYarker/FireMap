@@ -1,6 +1,6 @@
-# FireMap <br />
+# FireMap **DEFUNCT**<br />
 ### Autogenerate a map that displays emergencies that the Toronto Fire Department has responded to.
-
+* *The twitter page changed it's tweet format so this program no longer works.*
 * **Before this can work you'll need to install some python libraries.**
 1. Open a terminal and navigate to the directory you saved this repo in
 2. Type the following
@@ -39,7 +39,7 @@
 	    * Once the *fails* list is large enough I'll write a program to find similarities that cause failures and I'll implement solutions in clean.py's reformat function.<br />
 
 * The legend needs improvement, a number line with coloured circles depicting alarm levels needs to be added
-* Some tweets say b/w in the text, which means "between". For example "Yonge St b/w Bloor/ college" which means "Yonge street between Bloor and college". Instead of getting a point in between I just picked one of the streets and removed the other. 
+* Some tweets say b/w in the text, which means "between". For example "Yonge St b/w Bloor/ college" which means "Yonge street between Bloor and college". Instead of getting a point in between I just picked one of the streets and removed the other.
 
 * I'll be adding more descriptive docstrings over time. The doctests in clean.py should give a pretty good intuition of what each function does.
 
